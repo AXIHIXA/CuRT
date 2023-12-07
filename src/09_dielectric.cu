@@ -54,6 +54,8 @@ glm::vec3 color(
     {
         HitRecord rec;
 
+        // Ignore hits that are very close to the calculated intersection point
+        // to wipe off intersections points rounded-off to the interior of the sphere.
         if ((*world)->hit(currentRay, kHitEps, kFloatMax, rec))
         {
             Ray rayScattered;
@@ -169,9 +171,12 @@ void render(
         }
 
         tmpColor /= static_cast<float>(antiAliasingFactor);
+
+        // Gamma correction for images
         tmpColor.x = sqrtf(tmpColor.x);
         tmpColor.y = sqrtf(tmpColor.y);
         tmpColor.z = sqrtf(tmpColor.z);
+
         fb[pixelIdx] = tmpColor;
     }
 }

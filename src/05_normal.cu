@@ -17,7 +17,7 @@ constexpr int kWidth = 1200;
 
 constexpr int kHeight = 600;
 
-constexpr float kEps = 1e-5f;
+constexpr float kFloatMax = std::numeric_limits<float>::max();
 
 
 __device__
@@ -25,7 +25,7 @@ glm::vec3 color(const Ray & r, Hitable ** __restrict__ world)
 {
     HitRecord rec;
 
-    if ((*world)->hit(r, 0.0f, FLT_MAX, rec))
+    if ((*world)->hit(r, 0.0f, kFloatMax, rec))
     {
         return 0.5f * glm::vec3(rec.normal.x + 1.0f, rec.normal.y + 1.0f, rec.normal.z + 1.0f);
     }

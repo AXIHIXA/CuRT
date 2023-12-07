@@ -12,7 +12,7 @@ glm::vec3 randomVectorInUnitSphere(curandState * localRandState)
     float r = curand_uniform(localRandState);
     float phi = curand_uniform(localRandState) * M_PIf32 * 2.0f;
     float theta = curand_uniform(localRandState) * M_PIf32;
-    return {r * cosf(phi) * cosf(theta), r * cosf(phi) * sinf(theta), r * sinf(theta)};
+    return {r * cosf(phi) * sinf(theta), r * sinf(phi) * sinf(theta), r * cosf(theta)};
 }
 
 
@@ -42,7 +42,7 @@ class Lambertian : public Material
 {
 public:
     __device__
-    Lambertian(const glm::vec3 & a) : albedo(a) {}
+    explicit Lambertian(const glm::vec3 & a) : albedo(a) {}
 
     __device__
     ~Lambertian() noexcept override = default;
