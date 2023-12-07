@@ -27,8 +27,8 @@ public:
 
         origin = lookfrom;
         lowerLeft = origin - halfWidth * u - halfHeight * v - w;
-        horizontal = 2 * halfWidth * u;
-        vertical = 2 * halfHeight * v;
+        horizontal = 2.0f * halfWidth * u;
+        vertical = 2.0f * halfHeight * v;
     }
 
     __device__

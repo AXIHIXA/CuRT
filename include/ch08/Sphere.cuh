@@ -2,6 +2,7 @@
 #define SPHERE_CUH
 
 #include <glm/glm.hpp>
+#include <ch03/Ray.cuh>
 #include "ch08/Hitable.cuh"
 
 
@@ -20,9 +21,9 @@ public:
     __device__
     bool hit(const Ray & r, float tMin, float tMax, HitRecord & rec) const override
     {
-        glm::vec3 oc = r.origin() - center;
-        float a = glm::dot(r.direction(), r.direction());
-        float b = glm::dot(oc, r.direction());
+        glm::vec3 oc = r.o() - center;
+        float a = glm::dot(r.d(), r.d());
+        float b = glm::dot(oc, r.d());
         float c = glm::dot(oc, oc) - radius * radius;
 
         if (float discriminant = b * b - a * c; 0.0f < discriminant)
@@ -35,7 +36,7 @@ public:
                 // rec = {t, r.pointAtParameter(rec.t), (rec.p - center) / radius, pMaterial};
                 // Note that rec.normal relies on UPDATED rec.p! lol
                 rec.t = t;
-                rec.p = r.pointAtParameter(rec.t);
+                rec.p = r.at(rec.t);
                 rec.normal = (rec.p - center) / radius;
                 rec.pMaterial = pMaterial;
                 return true;
@@ -46,7 +47,7 @@ public:
             if (tMin < t and t < tMax)
             {
                 rec.t = t;
-                rec.p = r.pointAtParameter(rec.t);
+                rec.p = r.at(rec.t);
                 rec.normal = (rec.p - center) / radius;
                 rec.pMaterial = pMaterial;
                 return true;

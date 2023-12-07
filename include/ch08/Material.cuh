@@ -25,10 +25,10 @@ public:
     __device__
     virtual bool
     scatter(
-            const Ray & rayIn,
+            const Ray & inputRay,
             const HitRecord & rec,
             glm::vec3 & attenuation,
-            Ray & rayScattered,
+            Ray & scatteredRay,
             curandState * localRandState
     ) const = 0;
 };
@@ -49,15 +49,15 @@ public:
 
     __device__
     bool scatter(
-            const Ray & rayIn,
+            const Ray & inputPay,
             const HitRecord & rec,
             glm::vec3 & attenuation,
-            Ray & rayScattered,
+            Ray & scatteredRay,
             curandState * localRandState
     ) const override
     {
         glm::vec3 target = rec.p + rec.normal + randomVectorInUnitSphere(localRandState);
-        rayScattered = Ray(rec.p, target - rec.p);
+        scatteredRay = Ray(rec.p, target - rec.p);
         attenuation = albedo;
         return true;
     }
@@ -78,17 +78,17 @@ public:
 
     __device__
     bool scatter(
-            const Ray & rayIn,
+            const Ray & inputRay,
             const HitRecord & rec,
             glm::vec3 & attenuation,
-            Ray & rayScattered,
+            Ray & scatteredRay,
             curandState * localRandState
     ) const override
     {
-        glm::vec3 reflected = glm::reflect(rayIn.direction(), rec.normal);
-        rayScattered = Ray(rec.p, reflected + fuzz * randomVectorInUnitSphere(localRandState));
+        glm::vec3 reflected = glm::reflect(inputRay.d(), rec.normal);
+        scatteredRay = Ray(rec.p, reflected + fuzz * randomVectorInUnitSphere(localRandState));
         attenuation = albedo;
-        return 0.0f < glm::dot(rayScattered.direction(), rec.normal);
+        return 0.0f < glm::dot(scatteredRay.d(), rec.normal);
     }
 
 private:
@@ -132,10 +132,10 @@ public:
 
     __device__
     bool scatter(
-            const Ray & rayIn,
+            const Ray & inputRay,
             const HitRecord & rec,
             glm::vec3 & attenuation,
-            Ray & rayScattered,
+            Ray & scatteredRay,
             curandState * localRandState
     ) const override
     {
@@ -145,30 +145,30 @@ public:
         float niOverNt;
         float cosine;
 
-        if (0.0f < glm::dot(rayIn.direction(), rec.normal))
+        if (0.0f < glm::dot(inputRay.d(), rec.normal))
         {
             outwardNormal = -rec.normal;
             niOverNt = refIdx;
-            cosine = glm::dot(rayIn.direction(), rec.normal) / sqrtf(glm::dot(rayIn.direction(), rayIn.direction()));
+            cosine = glm::dot(inputRay.d(), rec.normal) / sqrtf(glm::dot(inputRay.d(), inputRay.d()));
             cosine = sqrtf(1.0f - refIdx * refIdx * (1.0f - cosine * cosine));
         }
         else
         {
             outwardNormal = rec.normal;
             niOverNt = 1.0f / refIdx;
-            cosine = -glm::dot(rayIn.direction(), rec.normal) / sqrtf(glm::dot(rayIn.direction(), rayIn.direction()));
+            cosine = -glm::dot(inputRay.d(), rec.normal) / sqrtf(glm::dot(inputRay.d(), inputRay.d()));
         }
 
         glm::vec3 refracted;
 
         float reflectProbability =
-                refract(rayIn.direction(), outwardNormal, niOverNt, refracted) ?
+                refract(inputRay.d(), outwardNormal, niOverNt, refracted) ?
                 schlick(cosine, refIdx) :
                 1.0f;
 
-        rayScattered =
+        scatteredRay =
                 curand_uniform(localRandState) < reflectProbability ?
-                Ray(rec.p, reflect(rayIn.direction(), rec.normal)) :
+                Ray(rec.p, reflect(inputRay.d(), rec.normal)) :
                 Ray(rec.p, refracted);
 
         return true;

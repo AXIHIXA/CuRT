@@ -75,7 +75,7 @@ glm::vec3 color(
         }
         else
         {
-            float t = 0.5f * (currentRay.direction().y + 1.0f);
+            float t = 0.5f * (currentRay.d().y + 1.0f);
             glm::vec3 c = (1.0f - t) * glm::vec3(1.0f, 1.0f, 1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
             return currentAttenuation * c;
         }

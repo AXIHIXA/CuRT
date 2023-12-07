@@ -21,9 +21,9 @@ __device__
 bool hitSphere(const glm::vec3 & center, float radius, const Ray & r)
 {
     // || origin + t direction - center || == radius
-    glm::vec3 oc = r.origin() - center;
-    float a = glm::dot(r.direction(), r.direction());
-    float b = 2.0f * dot(oc, r.direction());
+    glm::vec3 oc = r.o() - center;
+    float a = glm::dot(r.d(), r.d());
+    float b = 2.0f * dot(oc, r.d());
     float c = glm::dot(oc, oc) - radius * radius;
     float discriminant = b * b - 4.0f * a * c;
     return 0.0f < discriminant;
@@ -38,7 +38,7 @@ glm::vec3 color(const Ray & r)
         return {0.0f, 0.0f, 1.0f};
     }
 
-    float t = 0.5f * (r.direction().y + 1.0f);
+    float t = 0.5f * (r.d().y + 1.0f);
     return (1.0f - t) * glm::vec3(1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
 }
 

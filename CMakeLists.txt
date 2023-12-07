@@ -164,8 +164,8 @@ target_compile_options(${10_CAMERA} PUBLIC ${ALL_COMPILE_OPTS})
 target_include_directories(${10_CAMERA} PUBLIC ${ALL_INCLUDE_DIRS})
 target_link_libraries(${10_CAMERA} ${ALL_LIBRARIES})
 
-set(11_BLUR 11_blur)
-add_executable(${11_BLUR}
+set(11_FOCUS_BLUR 11_focus_blur)
+add_executable(${11_FOCUS_BLUR}
         ${UTIL}
         include/ch03/Ray.cuh
         include/ch08/Hitable.cuh
@@ -173,12 +173,12 @@ add_executable(${11_BLUR}
         include/ch08/Sphere.cuh
         include/ch08/World.cuh
         include/ch11/Camera.cuh
-        src/11_blur.cu
+        src/11_focus_blur.cu
 )
-target_compile_definitions(${11_BLUR} PUBLIC ${ALL_COMPILE_DEFS})
-target_compile_options(${11_BLUR} PUBLIC ${ALL_COMPILE_OPTS})
-target_include_directories(${11_BLUR} PUBLIC ${ALL_INCLUDE_DIRS})
-target_link_libraries(${11_BLUR} ${ALL_LIBRARIES})
+target_compile_definitions(${11_FOCUS_BLUR} PUBLIC ${ALL_COMPILE_DEFS})
+target_compile_options(${11_FOCUS_BLUR} PUBLIC ${ALL_COMPILE_OPTS})
+target_include_directories(${11_FOCUS_BLUR} PUBLIC ${ALL_INCLUDE_DIRS})
+target_link_libraries(${11_FOCUS_BLUR} ${ALL_LIBRARIES})
 
 set(12_WHERE_NEXT 12_where_next)
 add_executable(${12_WHERE_NEXT}
@@ -196,6 +196,21 @@ target_compile_options(${12_WHERE_NEXT} PUBLIC ${ALL_COMPILE_OPTS})
 target_include_directories(${12_WHERE_NEXT} PUBLIC ${ALL_INCLUDE_DIRS})
 target_link_libraries(${12_WHERE_NEXT} ${ALL_LIBRARIES})
 
+#set(21_MOTION_BLUR 21_motion_blur)
+#add_executable(${21_MOTION_BLUR}
+#        ${UTIL}
+#        include/ch21/Ray.cuh
+#        include/ch08/Hitable.cuh
+#        include/ch08/Material.cuh
+#        include/ch08/Sphere.cuh
+#        include/ch08/World.cuh
+#        include/ch11/Camera.cuh
+#        src/21_motion_blur.cu
+#)
+#target_compile_definitions(${21_MOTION_BLUR} PUBLIC ${ALL_COMPILE_DEFS})
+#target_compile_options(${21_MOTION_BLUR} PUBLIC ${ALL_COMPILE_OPTS})
+#target_include_directories(${21_MOTION_BLUR} PUBLIC ${ALL_INCLUDE_DIRS})
+#target_link_libraries(${21_MOTION_BLUR} ${ALL_LIBRARIES})
 
 
 

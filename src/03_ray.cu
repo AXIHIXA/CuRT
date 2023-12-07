@@ -18,7 +18,7 @@ constexpr int kHeight = 600;
 __device__
 glm::vec3 color(const Ray & r)
 {
-    float t = 0.5f * (r.direction().y + 1.0f);
+    float t = 0.5f * (r.d().y + 1.0f);
     return (1.0f - t) * glm::vec3(1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
 }
 

@@ -2,8 +2,9 @@
 #define HITABLE_CUH
 
 #include <glm/glm.hpp>
-#include "ch03/Ray.cuh"
 
+
+class Ray;
 
 class Material;
 

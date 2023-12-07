@@ -8,32 +8,39 @@ class Ray
 {
 public:
     __device__
-    Ray() : o(0.0f, 0.0f, 0.0f), d(0.0f, 0.0f, -1.0f) {}
+    Ray() : mOrigin(0.0f, 0.0f, 0.0f), mDirection(0.0f, 0.0f, -1.0f) {}
 
     __device__
-    Ray(const glm::vec3 & o, const glm::vec3 & d) : o(o), d(glm::normalize(d)) {}
-
-    __device__
-    glm::vec3 origin() const
+    Ray(
+            const glm::vec3 & origin,
+            const glm::vec3 & direction
+    )
+            : mOrigin(origin),
+              mDirection(glm::normalize(direction))
     {
-        return o;
     }
 
     __device__
-    glm::vec3 direction() const
+    glm::vec3 o() const
     {
-        return d;
+        return mOrigin;
     }
 
     __device__
-    glm::vec3 pointAtParameter(float t) const
+    glm::vec3 d() const
     {
-        return o + t * d;
+        return mDirection;
+    }
+
+    __device__
+    glm::vec3 at(float t) const
+    {
+        return mOrigin + t * mDirection;
     }
 
 private:
-    glm::vec3 o;
-    glm::vec3 d;
+    glm::vec3 mOrigin;
+    glm::vec3 mDirection;
 };
 
 
