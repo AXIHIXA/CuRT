@@ -1,6 +1,7 @@
 # CuRT
 
 - CUDA Ray Tracing Demo. 
+  - In One Weekend. 
 - Inspired by and credits to: 
   - [RayTracing/raytracing.github.io](https://github.com/RayTracing/raytracing.github.io);
   - [rogerallen/raytracinginoneweekendincuda](https://github.com/rogerallen/raytracinginoneweekendincuda). 
